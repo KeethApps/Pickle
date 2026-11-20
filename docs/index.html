@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pickle: save a link, sort it later</title>
+<meta name="description" content="Pickle turns the links you share into tidy cards: recipes, restaurants, places, workouts, books and more. Share a link, sort it in a tap, and find it again.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1a1a18">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png">
+<meta property="og:title" content="Pickle: save a link, sort it later">
+<meta property="og:description" content="Share a link. Pickle turns it into a card and files it in the right collection.">
+<meta property="og:image" content="assets/pwa-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1a1a18; --surface:#242422; --surface-2:#2d2d2a; --line:#3a3a36;
+  --text:#f2f1ec; --muted:#a3a29b; --accent:#d8e357; --accent-ink:#1a1a18;
+  --radius:22px; --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;text-decoration:none}
+.brand img{width:30px;height:30px;border-radius:8px}
+nav ul{display:flex;gap:26px;list-style:none;font-size:14px}
+nav ul a{text-decoration:none;color:var(--muted)}
+nav ul a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:500;font-size:15px;text-decoration:none;border:1px solid transparent}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.btn.ghost:hover{background:var(--surface)}
+.hero{padding-top:72px;padding-bottom:40px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.eyebrow{display:inline-block;font-size:13px;color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);padding:4px 12px;border-radius:999px;margin-bottom:20px}
+h1{font-size:clamp(38px,6vw,62px);line-height:1.08;font-weight:600;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:18px;color:var(--muted);margin:22px 0 32px;max-width:520px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero-shots{position:relative;display:flex;justify-content:center;align-items:flex-start;gap:16px}
+.phone{border-radius:34px;border:1px solid var(--line);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35);background:var(--surface)}
+.hero-shots .phone{width:44%}
+.hero-shots .phone:nth-child(2){margin-top:48px}
+section{padding:80px 0}
+.sec-head{max-width:640px;margin-bottom:44px}
+.sec-head h2{font-size:clamp(28px,4vw,40px);line-height:1.15;font-weight:600;letter-spacing:-.015em}
+.sec-head p{color:var(--muted);margin-top:12px;font-size:17px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.step .n{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:15px;margin-bottom:16px}
+.step h3{font-size:18px;font-weight:500;margin-bottom:6px}
+.step p{color:var(--muted);font-size:15px}
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:36px 0}
+.feature.flip .shot{order:-1}
+.feature h3{font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.feature p{color:var(--muted);margin-top:12px;font-size:16px}
+.feature ul{margin-top:16px;list-style:none;display:grid;gap:8px;font-size:15px}
+.feature li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:12px}
+.shot{display:flex;justify-content:center;align-items:flex-start;gap:16px}
+.shot .phone{width:min(240px,46%)}
+.shot .phone.solo{width:min(280px,70%)}
+.laptop{border-radius:16px;border:1px solid var(--line);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{padding:0}
+.card img{width:100%;border-radius:var(--radius);background:var(--surface)}
+.card figcaption{padding:14px 6px 0;display:grid;gap:4px}
+.card strong{font-weight:500;font-size:16px}
+.card span{font-size:14px;color:var(--muted);line-height:1.5}
+.rule{margin-top:36px;padding:22px 26px;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted);font-size:15px}
+.rule b{color:var(--text);font-weight:500}
+.gallery{display:flex;gap:18px;overflow-x:auto;padding:4px 24px 24px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.gallery .phone{flex:0 0 210px;scroll-snap-align:start}
+.gallery figure figcaption{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--surface)}
+.final{text-align:center;padding:96px 0}
+.final img{width:88px;height:88px;border-radius:22px;margin:0 auto 24px}
+.final h2{font-size:clamp(28px,4vw,40px);font-weight:600}
+.final p{color:var(--muted);margin:12px auto 28px;max-width:480px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media (max-width:860px){
+  nav ul{display:none}
+  .hero,.feature{grid-template-columns:1fr;gap:36px}
+  .feature.flip .shot{order:0}
+  .steps{grid-template-columns:1fr}
+  section{padding:56px 0}
+  .hero{padding-top:44px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/favicon-48.png" alt="" width="30" height="30">Pickle</a>
+    <ul>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#cards">Cards</a></li>
+      <li><a href="#screens">Screens</a></li>
+    </ul>
+    <a class="btn" href="https://github.com/KeethApps/Pickle">GitHub</a>
+  </div>
+</nav>
+
+<header class="wrap hero" id="top">
+  <div>
+    <span class="eyebrow">Save now, sort later</span>
+    <h1>Every link you save, <em>finally findable.</em></h1>
+    <p class="lead">Make your doomscrolling worth it.</p>
+    <div class="cta">
+      <a class="btn" href="#how">See how it works</a>
+      <a class="btn ghost" href="https://github.com/KeethApps/Pickle">View on GitHub</a>
+    </div>
+  </div>
+  <div class="hero-shots">
+    <div class="phone"><img src="assets/screens/inbox.webp" alt="Pickle inbox with a saved link ready to sort" width="520" height="1125"></div>
+    <div class="phone"><img src="assets/screens/library.webp" alt="Pickle library with collections" width="520" height="1125" loading="lazy"></div>
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Three taps from messy to sorted</h2>
+      <p>No folders to dig through and no screenshots to scroll past.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Share a link</h3><p>Send anything to Pickle from Instagram, Safari, a maps app or your clipboard. It saves instantly and pulls in the title and cover.</p></div>
+      <div class="step"><div class="n">2</div><h3>Sort it</h3><p>Swipe up to file it into a collection like Recipes or Places. Fill in a few details, or skip them for later.</p></div>
+      <div class="step"><div class="n">3</div><h3>Find it again</h3><p>Search everything, or filter a collection by cuisine, time, deadline, price and more.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding-top:20px">
+  <div class="wrap">
+
+    <div class="feature">
+      <div>
+        <h3>An inbox you can clear</h3>
+        <p>New saves wait in your inbox as big, swipeable cards. Work through them like a stack and finish at inbox zero.</p>
+        <ul>
+          <li>Swipe up to sort, left to delete, right to remind</li>
+          <li>Already saved? Pickle tells you instead of duplicating</li>
+          <li>Deleted by accident? Undo, or find it in Trash for 30 days</li>
+        </ul>
+      </div>
+      <div class="shot">
+        <div class="phone"><img src="assets/screens/swipe.webp" alt="Swiping a card to delete" width="520" height="1125" loading="lazy"></div>
+        <div class="phone"><img src="assets/screens/zero.webp" alt="Inbox zero screen" width="520" height="1125" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="feature flip">
+      <div>
+        <h3>Collections that know what they hold</h3>
+        <!-- <p>A recipe is not a restaurant. Every collection has its own fields, filters and actions, so a card shows what actually matters for that kind of thing.</p> -->
+        <ul>
+          <li>13 ready-made collections, or build your own</li>
+          <li>Rename, recolor and reorder statuses to fit how you work</li>
+          <li>Custom fields for anything the defaults miss</li>
+        </ul>
+      </div>
+      <div class="shot">
+        <div class="phone"><img src="assets/screens/library.webp" alt="Library of collections" width="520" height="1125" loading="lazy"></div>
+        <div class="phone"><img src="assets/screens/restaurant.png" alt="Place builder" width="520" height="1125" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div>
+        <h3>Details (customizable) that make sense!</h3>
+        <!-- <p>Open a card for the full picture: tick off recipe ingredients, scale servings, follow a workout set by set, or open the map in one tap.</p> -->
+        <ul>
+          <li>Ingredient checklists with scalable servings</li>
+          <li>Sets and reps for workouts</li>
+          <li>Extra links on any card, with a one-tap primary action</li>
+        </ul>
+      </div>
+      <div class="shot">
+        <div class="phone"><img src="assets/screens/recipe.webp" alt="Recipe detail with ingredients" width="520" height="1125" loading="lazy"></div>
+        <div class="phone"><img src="assets/screens/watch.png" alt="Movie detail with trailer" width="520" height="1125" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="feature flip">
+      <div>
+        <h3>Search and filter, whatever you like</h3>
+        <p>Search across titles, captions and saved article text. Then narrow down with filters that change per collection: Italian, under 30 minutes, vegetarian.</p>
+      </div>
+      <div class="shot">
+        <div class="phone"><img src="assets/screens/search.webp" alt="Search results across collections" width="520" height="1125" loading="lazy"></div>
+        <div class="phone"><img src="assets/screens/filters.webp" alt="Filter sheet" width="520" height="1125" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div>
+        <h3>Reminders and tasks, attached to cards</h3>
+        <!-- <p>Pickle finds deadlines in what you save and offers to remind you. Turn any card into a reminder or a task, and the link opens when it is due.</p> -->
+        <ul>
+          <li>Prefilled from deadlines like hackathons and scholarships</li>
+          <li>Today, upcoming, anytime and done in one list</li>
+          <li>Reminders sync to your laptop too</li>
+        </ul>
+      </div>
+      <div class="shot">
+        <div class="phone"><img src="assets/screens/reminders.webp" alt="Reminders and tasks" width="520" height="1125" loading="lazy"></div>
+        <div class="phone"><img src="assets/screens/remind.webp" alt="Set a reminder" width="520" height="1125" loading="lazy"></div>
+      </div>
+    </div>
+
+    <!-- <div class="feature flip">
+      <div>
+        <h3>Tidy up, without the guilt</h3>
+        <p>Old saves pile up. Tidy up surfaces what you have not touched in months, and you keep or delete in bulk. Anything you finish or mark done is muted so it stays out of the way.</p>
+      </div>
+      <div class="shot"><div class="phone solo"><img src="assets/screens/tidy.webp" alt="Tidy up screen with bulk select" width="520" height="1125" loading="lazy"></div></div>
+    </div> -->
+
+    <div class="feature">
+      <div>
+        <h3>On your laptop, too</h3>
+        <p>A keyboard-first layout for triage. Sort with the arrow keys, open a link with <b>o</b>, edit a title with <b>e</b>, and open several saved links at once.</p>
+      </div>
+      <div class="shot"><div class="laptop"><img src="assets/screens/laptop-triage.webp" alt="Pickle on a laptop, triaging the inbox" width="1600" height="1000" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="cards" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>One card for each kind of thing</h2>
+      <p>Every card has the same shape, so your library feels calm. What changes is what each one shows and what its main action does.</p>
+    </div>
+    <div class="cards">
+        <figure class="card"><img src="assets/cards/recipes.webp" alt="Recipes card" loading="lazy" width="357" height="330"><figcaption><strong>Recipes</strong><span>Cuisine and time up front, plus a made-it count. Open a recipe to tick off ingredients and scale servings.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/restaurants.webp" alt="Restaurants card" loading="lazy" width="357" height="330"><figcaption><strong>Restaurants</strong><span>Area, cuisine and price, with the dish you want to try highlighted. Maps link and booking reminders built in.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/places.webp" alt="Places card" loading="lazy" width="357" height="330"><figcaption><strong>Places</strong><span>City and type, with a trip tag. One tap to open in Maps, one to mark it visited.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/workouts.webp" alt="Workouts card" loading="lazy" width="357" height="330"><figcaption><strong>Workouts</strong><span>Muscle group, duration and equipment. Sets and reps live in the detail screen, with a done counter.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/wishlist.webp" alt="Wishlist card" loading="lazy" width="357" height="330"><figcaption><strong>Wishlist</strong><span>Price front and centre, plus priority and who it is for. Mark it bought when you do.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/books.webp" alt="Books card" loading="lazy" width="357" height="330"><figcaption><strong>Books</strong><span>Author and page count, with Want, Reading and Finished states.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/watch.webp" alt="Watch card" loading="lazy" width="357" height="330"><figcaption><strong>Watch</strong><span>Films and shows with year, runtime and where to stream them.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/youtube.webp" alt="YouTube card" loading="lazy" width="357" height="330"><figcaption><strong>YouTube</strong><span>Channel, duration on the cover, and a start-at note so you skip to the good part.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/articles.webp" alt="Articles card" loading="lazy" width="357" height="330"><figcaption><strong>Articles</strong><span>Reading time, offline badge, and a reader view that still works if the link dies.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/opportunities.webp" alt="Opportunities card" loading="lazy" width="357" height="330"><figcaption><strong>Opportunities</strong><span>Deadline countdowns that turn red when overdue, with steps and eligibility in the detail view.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/tools.webp" alt="Tools card" loading="lazy" width="357" height="330"><figcaption><strong>Tools</strong><span>Repos and apps with a use-for note, so you remember why you saved it.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/events.webp" alt="Events card" loading="lazy" width="357" height="330"><figcaption><strong>Events</strong><span>Date as the badge, soonest first, past events muted. Maps link and went or skipped.</span></figcaption></figure>
+        <figure class="card"><img src="assets/cards/design-inspo.webp" alt="Design Inspo card" loading="lazy" width="357" height="330"><figcaption><strong>Design Inspo</strong><span>Your screenshot is the cover. Keep it, try it, or mark it used.</span></figcaption></figure>
+    </div>
+    <div class="rule"><b>Every card:</b> source top left, one badge top right, a title, one subtitle, up to two pills and one primary action. Anything else lives in the detail screen. Cards also have states: generated covers for links with no preview, a dead-link flag when a page disappears (your reader copy is kept), and muted styling once you are done.</div>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>A closer look</h2>
+      <p>Sharing, collection picking, sync and backup.</p>
+    </div>
+  </div>
+  <div class="gallery">
+    <figure><div class="phone"><img src="assets/screens/share.webp" alt="Share confirmation" width="520" height="1125" loading="lazy"></div><figcaption>Share confirmation</figcaption></figure>
+    <figure><div class="phone"><img src="assets/screens/add.webp" alt="Add a card, pick a collection" width="520" height="1125" loading="lazy"></div><figcaption>Add a card</figcaption></figure>
+    <figure><div class="phone"><img src="assets/screens/settings.webp" alt="Settings and sync" width="520" height="1125" loading="lazy"></div><figcaption>Settings and sync</figcaption></figure>
+    <figure><div class="phone"><img src="assets/screens/backup.webp" alt="Backup and trash" width="520" height="1125" loading="lazy"></div><figcaption>Backup and trash</figcaption></figure>
+    <figure><div class="phone"><img src="assets/screens/inbox.webp" alt="Inbox" width="520" height="1125" loading="lazy"></div><figcaption>Inbox</figcaption></figure>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <img src="assets/pwa-192.png" alt="Pickle app icon" width="88" height="88">
+    <h2>Stop losing good links</h2>
+    <p>Pickle is in development. Follow along on GitHub for updates.</p>
+    <a class="btn" href="https://github.com/KeethApps/Pickle">Follow on GitHub</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Pickle</span>
+    <span>Made by Keerthana Vegesna</span>
+  </div>
+</footer>
+
+</body>
+</html>
