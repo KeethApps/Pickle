@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://keethapps.github.io/pickle/sitemap.xml

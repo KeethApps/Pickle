@@ -7,13 +7,25 @@
 <meta name="description" content="Pickle turns the links you share into tidy cards: recipes, restaurants, places, workouts, books and more. Share a link, sort it in a tap, and find it again.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#1a1a18">
+<link rel="canonical" href="https://keethapps.github.io/Pickle/">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pickle">
+<meta property="og:url" content="https://keethapps.github.io/Pickle/">
 <meta property="og:title" content="Pickle: save a link, sort it later">
 <meta property="og:description" content="Share a link. Pickle turns it into a card and files it in the right collection.">
-<meta property="og:image" content="assets/pwa-512.png">
+<meta property="og:image" content="https://keethapps.github.io/Pickle/assets/social-preview.png">
+<meta property="og:image:alt" content="Pickle: every link you save, finally findable">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pickle: save a link, sort it later">
+<meta name="twitter:description" content="Share a link. Pickle turns it into a card and files it in the right collection.">
+<meta name="twitter:image" content="https://keethapps.github.io/Pickle/assets/social-preview.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Pickle","description":"Save links, sort them into cards, and find them again.","applicationCategory":"ProductivityApplication","operatingSystem":"Web","url":"https://keethapps.github.io/Pickle/","author":{"@type":"Person","name":"Keerthana Vegesna"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -24,24 +36,33 @@
   --radius:22px; --max:1120px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{background:var(--bg);color:var(--text);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+body>nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+body>nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;text-decoration:none}
 .brand img{width:30px;height:30px;border-radius:8px}
-nav ul{display:flex;gap:26px;list-style:none;font-size:14px}
-nav ul a{text-decoration:none;color:var(--muted)}
-nav ul a:hover{color:var(--text)}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:500;font-size:15px;text-decoration:none;border:1px solid transparent}
+body>nav ul{display:flex;gap:26px;list-style:none;font-size:14px}
+body>nav ul a{text-decoration:none;color:var(--muted)}
+body>nav ul a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:500;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit}
 .btn:hover{filter:brightness(1.06)}
 .btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
 .btn.ghost:hover{background:var(--surface)}
+.btn.small{padding:8px 16px;font-size:14px}
+.btn svg{flex:none}
+.count{font-variant-numeric:tabular-nums;padding-left:10px;margin-left:2px;border-left:1px solid color-mix(in srgb,currentColor 30%,transparent)}
+.count:empty{display:none}
 .hero{padding-top:72px;padding-bottom:40px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
-.eyebrow{display:inline-block;font-size:13px;color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);padding:4px 12px;border-radius:999px;margin-bottom:20px}
+.badges{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px}
+.eyebrow{display:inline-block;font-size:13px;color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);padding:4px 12px;border-radius:999px}
+.release{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line);padding:4px 12px;border-radius:999px}
+.release:hover{color:var(--text);border-color:var(--accent)}
+.release[hidden]{display:none}
 h1{font-size:clamp(38px,6vw,62px);line-height:1.08;font-weight:600;letter-spacing:-.02em}
 h1 em{font-style:normal;color:var(--accent)}
 .lead{font-size:18px;color:var(--muted);margin:22px 0 32px;max-width:520px}
@@ -59,6 +80,8 @@ section{padding:80px 0}
 .step .n{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:15px;margin-bottom:16px}
 .step h3{font-size:18px;font-weight:500;margin-bottom:6px}
 .step p{color:var(--muted);font-size:15px}
+a.step{display:block;text-decoration:none;transition:border-color .15s,transform .15s}
+a.step:hover{border-color:var(--accent);transform:translateY(-2px)}
 .feature{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:36px 0}
 .feature.flip .shot{order:-1}
 .feature h3{font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
@@ -70,12 +93,28 @@ section{padding:80px 0}
 .shot .phone.solo{width:min(280px,70%)}
 .laptop{border-radius:16px;border:1px solid var(--line);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3)}
 .band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
-.card{padding:0}
-.card img{width:100%;border-radius:var(--radius);background:var(--surface)}
+.band#cards{background:var(--bg)}
+.sec-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.sec-row .sec-head{margin-bottom:44px}
+
+/* Card carousel: slides on its own, pauses on hover or focus, scrolls by hand without JS */
+.carousel{position:relative;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:4px 0 8px;scrollbar-width:thin}
+.carousel.is-marquee{overflow:hidden;scroll-snap-type:none;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.cards{display:flex;gap:22px;width:max-content;padding:0 24px}
+.card{flex:0 0 280px;padding:0;scroll-snap-align:start}
+.card img{width:100%;border-radius:var(--radius)}
 .card figcaption{padding:14px 6px 0;display:grid;gap:4px}
 .card strong{font-weight:500;font-size:16px}
-.card span{font-size:14px;color:var(--muted);line-height:1.5}
+.card span{font-size:14px;color:var(--muted);line-height:1.5;white-space:normal}
+.is-marquee .cards{padding:0;animation:slide var(--dur,70s) linear infinite}
+.is-marquee:hover .cards,.is-marquee:focus-within .cards,.is-marquee.paused .cards{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(calc(-50% - 11px))}}
+@media (prefers-reduced-motion:reduce){.is-marquee .cards{animation:none}}
+.carousel-ctl{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px}
+.carousel-ctl[hidden]{display:none}
+
 .rule{margin-top:36px;padding:22px 26px;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted);font-size:15px}
 .rule b{color:var(--text);font-weight:500}
 .gallery{display:flex;gap:18px;overflow-x:auto;padding:4px 24px 24px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
@@ -83,17 +122,32 @@ section{padding:80px 0}
 .gallery figure figcaption{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
 .pills{display:flex;flex-wrap:wrap;gap:10px}
 .pill{padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--surface)}
+.step .ico{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);margin-bottom:16px}
 .final{text-align:center;padding:96px 0}
 .final img{width:88px;height:88px;border-radius:22px;margin:0 auto 24px}
 .final h2{font-size:clamp(28px,4vw,40px);font-weight:600}
 .final p{color:var(--muted);margin:12px auto 28px;max-width:480px}
-footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.final .cta{justify-content:center}
+
+footer{border-top:1px solid var(--line);padding:56px 0 28px;color:var(--muted);font-size:14px}
+.foot{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
+.foot .about p{margin:14px 0 18px;max-width:320px;line-height:1.6}
+.foot h4{color:var(--text);font-weight:500;font-size:14px;margin-bottom:14px}
+.foot ul{list-style:none;display:grid;gap:10px}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--text)}
+.foot .brand{color:var(--text)}
+.legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);font-size:13px}
+.legal a{text-decoration:underline;text-underline-offset:3px}
+
 @media (max-width:860px){
-  nav ul{display:none}
-  .hero,.feature{grid-template-columns:1fr;gap:36px}
+  body>nav ul{display:none}
+  .hero,.feature{grid-template-columns:minmax(0,1fr);gap:36px}
+  .hero>*,.feature>*{min-width:0}
   .feature.flip .shot{order:0}
   .steps{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr 1fr}
+  .foot .about{grid-column:1/-1}
   section{padding:56px 0}
   .hero{padding-top:44px}
 }
@@ -101,7 +155,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </head>
 <body>
 
-<nav>
+<nav aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/favicon-48.png" alt="" width="30" height="30">Pickle</a>
     <ul>
@@ -109,19 +163,24 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       <li><a href="#features">Features</a></li>
       <li><a href="#cards">Cards</a></li>
       <li><a href="#screens">Screens</a></li>
+      <li><a href="#open-source">Open source</a></li>
+      <li><a href="https://github.com/KeethApps/Pickle/releases">What's new</a></li>
     </ul>
-    <a class="btn" href="https://github.com/KeethApps/Pickle">GitHub</a>
+    <a class="btn small" href="https://github.com/KeethApps/Pickle" aria-label="Star Pickle on GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>Star</a>
   </div>
 </nav>
 
 <header class="wrap hero" id="top">
   <div>
-    <span class="eyebrow">Save now, sort later</span>
+    <div class="badges">
+      <span class="eyebrow">Save now, sort later</span>
+      <a class="release" id="latest-release" href="https://github.com/KeethApps/Pickle/releases" hidden>New: <b id="latest-tag"></b> · What's new &rarr;</a>
+    </div>
     <h1>Every link you save, <em>finally findable.</em></h1>
     <p class="lead">Make your doomscrolling worth it.</p>
     <div class="cta">
       <a class="btn" href="#how">See how it works</a>
-      <a class="btn ghost" href="https://github.com/KeethApps/Pickle">View on GitHub</a>
+      <a class="btn ghost" href="https://github.com/KeethApps/Pickle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>Star on GitHub</span></a>
     </div>
   </div>
   <div class="hero-shots">
@@ -130,6 +189,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   </div>
 </header>
 
+<main>
 <section id="how">
   <div class="wrap">
     <div class="sec-head">
@@ -154,7 +214,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
         <ul>
           <li>Swipe up to sort, left to delete, right to remind</li>
           <li>Already saved? Pickle tells you instead of duplicating</li>
-          <li>Deleted by accident? Undo, or find it in Trash for 30 days</li>
         </ul>
       </div>
       <div class="shot">
@@ -241,12 +300,18 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </section>
 
 <section id="cards" class="band">
-  <div class="wrap">
+  <div class="wrap sec-row">
     <div class="sec-head">
       <h2>One card for each kind of thing</h2>
       <p>Every card has the same shape, so your library feels calm. What changes is what each one shows and what its main action does.</p>
     </div>
-    <div class="cards">
+    <div class="carousel-ctl" id="carousel-ctl" hidden>
+      <button class="btn ghost small" id="carousel-toggle" type="button" aria-pressed="false">Pause</button>
+      <span>Hover to pause</span>
+    </div>
+  </div>
+  <div class="carousel" id="carousel" aria-label="Card types" role="region" tabindex="0">
+    <div class="cards" id="cards-track">
         <figure class="card"><img src="assets/cards/recipes.webp" alt="Recipes card" loading="lazy" width="357" height="330"><figcaption><strong>Recipes</strong><span>Cuisine and time up front, plus a made-it count. Open a recipe to tick off ingredients and scale servings.</span></figcaption></figure>
         <figure class="card"><img src="assets/cards/restaurants.webp" alt="Restaurants card" loading="lazy" width="357" height="330"><figcaption><strong>Restaurants</strong><span>Area, cuisine and price, with the dish you want to try highlighted. Maps link and booking reminders built in.</span></figcaption></figure>
         <figure class="card"><img src="assets/cards/places.webp" alt="Places card" loading="lazy" width="357" height="330"><figcaption><strong>Places</strong><span>City and type, with a trip tag. One tap to open in Maps, one to mark it visited.</span></figcaption></figure>
@@ -261,8 +326,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
         <figure class="card"><img src="assets/cards/events.webp" alt="Events card" loading="lazy" width="357" height="330"><figcaption><strong>Events</strong><span>Date as the badge, soonest first, past events muted. Maps link and went or skipped.</span></figcaption></figure>
         <figure class="card"><img src="assets/cards/design-inspo.webp" alt="Design Inspo card" loading="lazy" width="357" height="330"><figcaption><strong>Design Inspo</strong><span>Your screenshot is the cover. Keep it, try it, or mark it used.</span></figcaption></figure>
     </div>
-    <div class="rule"><b>Every card:</b> source top left, one badge top right, a title, one subtitle, up to two pills and one primary action. Anything else lives in the detail screen. Cards also have states: generated covers for links with no preview, a dead-link flag when a page disappears (your reader copy is kept), and muted styling once you are done.</div>
   </div>
+  <!-- <div class="wrap">
+    <div class="rule"><b>Every card:</b> source top left, one badge top right, a title, one subtitle, up to two pills and one primary action. Anything else lives in the detail screen. Cards also have states: generated covers for links with no preview, a dead-link flag when a page disappears (your reader copy is kept), and muted styling once you are done.</div>
+  </div> -->
 </section>
 
 <section id="screens">
@@ -281,21 +348,128 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   </div>
 </section>
 
-<section class="final">
+<section id="open-source" class="band">
   <div class="wrap">
-    <img src="assets/pwa-192.png" alt="Pickle app icon" width="88" height="88">
-    <h2>Stop losing good links</h2>
-    <p>Pickle is in development. Follow along on GitHub for updates.</p>
-    <a class="btn" href="https://github.com/KeethApps/Pickle">Follow on GitHub</a>
+    <div class="sec-head">
+      <h2>Open source, built in the open</h2>
+      <p>Pickle is free and the code is on GitHub. Here is how you can help it grow.</p>
+    </div>
+    <div class="steps">
+      <a class="step" href="https://github.com/KeethApps/Pickle"><div class="ico"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg></div><h3>Star the repo</h3><p>The quickest way to help. It makes Pickle easier for other people to find.</p></a>
+      <a class="step" href="https://github.com/KeethApps/Pickle/issues/new/choose"><div class="ico"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg></div><h3>Report a bug or share an idea</h3><p>Tell me what is broken, or what a new card type should show.</p></a>
+      <a class="step" href="https://github.com/KeethApps/Pickle/blob/main/CONTRIBUTING.md"><div class="ico"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 14.5S1.5 10.6 1.5 6A3.6 3.6 0 0 1 8 3.8 3.6 3.6 0 0 1 14.5 6C14.5 10.6 8 14.5 8 14.5Z"/></svg></div><h3>Contribute</h3><p>Pull requests are welcome. The contributing guide has everything you need.</p></a>
+    </div>
   </div>
 </section>
 
+<section class="final">
+  <div class="wrap">
+    <img src="assets/pwa-192.png" alt="Pickle app icon" width="88" height="88">
+    <h2>Make doomscrolling worth it.</h2>
+    <p>Pickle is in development. Star the repo to follow along and get release updates.</p>
+    <div class="cta">
+      <a class="btn" href="https://github.com/KeethApps/Pickle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>Star on GitHub (please)</a>
+      <a class="btn ghost" href="https://github.com/KeethApps/Pickle/releases">See what's new</a>
+    </div>
+  </div>
+</section>
+</main>
+
 <footer>
   <div class="wrap">
-    <span>© 2026 Pickle</span>
-    <span>Made by Keerthana Vegesna</span>
+    <div class="foot">
+      <div class="about">
+        <a class="brand" href="#top"><img src="assets/favicon-48.png" alt="" width="30" height="30">Pickle</a>
+        <p>Save a link now, sort it later. Every link you save, finally findable.</p>
+        <a class="btn ghost small" href="https://github.com/KeethApps/Pickle">View on GitHub</a>
+      </div>
+      <nav aria-label="Explore">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#cards">Cards</a></li>
+          <li><a href="#screens">Screens</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/KeethApps/Pickle">GitHub</a></li>
+          <li><a href="https://github.com/KeethApps/Pickle/releases">Releases</a></li>
+          <li><a href="https://github.com/KeethApps/Pickle/blob/main/CHANGELOG.md">Changelog</a></li>
+          <li><a href="https://github.com/KeethApps/Pickle/issues">Issues</a></li>
+          <li><a href="https://github.com/KeethApps/Pickle/discussions">Discussions</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Community">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="https://github.com/KeethApps/Pickle/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/KeethApps/Pickle/blob/main/CODE_OF_CONDUCT.md">Code of conduct</a></li>
+          <li><a href="https://github.com/KeethApps/Pickle/blob/main/SECURITY.md">Security</a></li>
+          <li><a href="https://github.com/KeethApps/Pickle/blob/main/LICENSE">MIT license</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <span>© 2026 Pickle. Released under the <a href="https://github.com/KeethApps/Pickle/blob/main/LICENSE">MIT License</a>.</span>
+      <span>Made by <a href="https://github.com/KeethApps">Keerthana Vegesna</a></span>
+    </div>
   </div>
 </footer>
 
+<script>
+(function () {
+  var REPO = "KeethApps/Pickle";
+
+  /* GitHub stars + latest release (cached for 10 minutes, fails quietly) */
+  function fmt(n){return n>=1000?(n/1000).toFixed(n>=10000?0:1).replace(/\.0$/,"")+"k":String(n)}
+  function showStars(n){document.querySelectorAll("[data-stars]").forEach(function(e){e.textContent=fmt(n)})}
+  function showRelease(tag){
+    if(!tag)return;
+    document.getElementById("latest-tag").textContent=tag;
+    document.getElementById("latest-release").hidden=false;
+  }
+  function cached(key){try{var c=JSON.parse(sessionStorage.getItem(key));if(c&&Date.now()-c.t<6e5)return c.v}catch(e){}return null}
+  function store(key,v){try{sessionStorage.setItem(key,JSON.stringify({v:v,t:Date.now()}))}catch(e){}}
+
+  var s=cached("pickle-stars");
+  if(s!==null){showStars(s)}else{
+    fetch("https://api.github.com/repos/"+REPO).then(function(r){return r.ok?r.json():null}).then(function(d){
+      if(d&&typeof d.stargazers_count==="number"){showStars(d.stargazers_count);store("pickle-stars",d.stargazers_count)}
+    }).catch(function(){});
+  }
+  var t=cached("pickle-release");
+  if(t!==null){showRelease(t)}else{
+    fetch("https://api.github.com/repos/"+REPO+"/releases/latest").then(function(r){return r.ok?r.json():null}).then(function(d){
+      if(d&&d.tag_name){showRelease(d.tag_name);store("pickle-release",d.tag_name)}
+    }).catch(function(){});
+  }
+
+  /* Card carousel: auto-slides, pauses on hover/focus or with the button */
+  var carousel=document.getElementById("carousel"),track=document.getElementById("cards-track");
+  var ctl=document.getElementById("carousel-ctl"),btn=document.getElementById("carousel-toggle");
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(carousel&&track&&!reduce){
+    var cards=Array.prototype.slice.call(track.children);
+    cards.forEach(function(c){
+      var clone=c.cloneNode(true);
+      clone.setAttribute("aria-hidden","true");
+      clone.querySelectorAll("img").forEach(function(i){i.alt="";i.loading="eager"});
+      track.appendChild(clone);
+    });
+    track.style.setProperty("--dur",(cards.length*6)+"s");
+    carousel.classList.add("is-marquee");
+    carousel.removeAttribute("tabindex");
+    ctl.hidden=false;
+    btn.addEventListener("click",function(){
+      var paused=carousel.classList.toggle("paused");
+      btn.textContent=paused?"Play":"Pause";
+      btn.setAttribute("aria-pressed",paused?"true":"false");
+    });
+  }
+})();
+</script>
 </body>
 </html>
