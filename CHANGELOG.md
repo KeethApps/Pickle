@@ -8,14 +8,21 @@ Every entry goes under one of these headings: **Added**, **Changed**, **Deprecat
 
 ## [Unreleased]
 
-### Added
-- Inbox with swipe to sort, delete or remind
-- 13 collections with their own cards, fields and filters
-- Detail screens, including recipe ingredients with scalable servings and workout sets and reps
-- Search and per-collection filters
-- Reminders and tasks
-- Tidy up for old saves
-- Backup, JSON export and import, and Trash
-- Landing page on GitHub Pages
+First public preview of Pickle: save a link, sort it later, find it again. Try it in your browser at [pickle-app-web.vercel.app](https://pickle-app-web.vercel.app).
 
-[Unreleased]: https://github.com/keethapps/pickle/commits/main
+### Added
+- **Inbox** of swipeable cards: swipe up to sort, left to delete, right to remind
+- **Duplicate check**, so a link you already saved is not added twice
+- **Smart suggestions** that guess the right collection from the caption
+- **13 collections**: Recipes, Restaurants, Places, Workouts, Wishlist, Books, Watch, YouTube, Articles, Opportunities, Tools, Events and Design Inspo, each with its own card, fields and filters
+- **Collection builder** with custom fields and editable statuses
+- **Detail screens**, including recipe ingredient checklists with scalable servings and workout sets and reps
+- **Search** across titles, captions and saved article text, plus **filters** that change per collection
+- **Reminders and tasks**, prefilled from deadlines found in what you save
+- **Tidy up** for bulk keep or delete of old saves
+- **Backup and restore**: JSON export and import, automatic backups, and a Trash that keeps deleted items for 30 days
+- **Web demo** hosted on Vercel
+- **Website** on GitHub Pages
+- Open source project files: README, contributing guide, code of conduct, security policy, issue forms and release workflow
+
+[Unreleased]: https://github.com/KeethApps/Pickle/commits/main

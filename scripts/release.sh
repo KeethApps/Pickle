@@ -34,13 +34,40 @@ s += "\n".join([f"[Unreleased]: https://github.com/{repo}/compare/v{version}...H
 open(p, "w").write(s)
 PY
 
+# 2. Keep app version numbers in step with the release (monorepo aware)
+#    Only touches files that exist, and only when "version" appears exactly once.
+BUMPED=()
+bump_version() {
+  local file="$1"
+  [[ -f "$file" ]] || return 0
+  python3 - "$file" "$VERSION" <<'PY' && BUMPED+=("$file") || true
+import re, sys
+path, version = sys.argv[1:3]
+s = open(path).read()
+found = re.findall(r'"version"\s*:\s*"[^"]*"', s)
+if len(found) != 1:
+    print(f"  skipped {path}: expected one \"version\" field, found {len(found)}")
+    sys.exit(1)
+new = re.sub(r'("version"\s*:\s*")[^"]*(")', lambda m: m.group(1) + version + m.group(2), s, count=1)
+if new == s:
+    sys.exit(1)
+open(path, "w").write(new)
+print(f"  updated {path} to {version}")
+PY
+}
+bump_version package.json
+bump_version apps/app/package.json
+bump_version packages/core/package.json
+# Expo wants a plain number for the store version, so skip pre-release suffixes there
+[[ "$VERSION" == *-* ]] || bump_version apps/app/app.json
+
 echo "---- Release notes for $TAG ----"
 awk -v v="$VERSION" '$0 ~ "^## \\[" v "\\]"{f=1;next} f&&(/^## \[/||/^\[[^]]+\]: /){exit} f' CHANGELOG.md
 echo "--------------------------------"
 read -r -p "Commit, tag $TAG and push? [y/N] " ok
 [[ "$ok" =~ ^[Yy]$ ]] || { git checkout CHANGELOG.md; echo "Aborted."; exit 1; }
 
-git add CHANGELOG.md
+git add CHANGELOG.md "${BUMPED[@]}"
 git commit -m "Release $TAG"
 git tag -a "$TAG" -m "Pickle $TAG"
 git push origin main "$TAG"

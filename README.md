@@ -51,7 +51,7 @@
 
 Most of us save links everywhere: screenshots, chats, bookmarks, "saved" tabs we never open again. Pickle gives them one home.
 
-You share a link to Pickle. It saves instantly, pulls in the title and cover, and waits in your **inbox**. When you have a minute, you sort it into a **collection** such as Recipes, Places or Books. Each collection knows what matters for that kind of thing, so a recipe shows cuisine and cook time, and a hackathon shows a deadline countdown.
+You share a link to Pickle. It saves instantly to your **inbox**. When you have a minute, you sort it into a **collection** such as Recipes, Places or Books. Each collection knows what matters for that kind of thing, so a recipe shows cuisine and cook time, and a restaurant you want to try shows you what you should order when you're there.
 
 If you like Pickle, a ⭐ on this repo helps more people find it.
 
