@@ -67,7 +67,7 @@ echo "--------------------------------"
 read -r -p "Commit, tag $TAG and push? [y/N] " ok
 [[ "$ok" =~ ^[Yy]$ ]] || { git checkout CHANGELOG.md; echo "Aborted."; exit 1; }
 
-git add CHANGELOG.md "${BUMPED[@]}"
+git add CHANGELOG.md ${BUMPED[@]+"${BUMPED[@]}"}
 git commit -m "Release $TAG"
 git tag -a "$TAG" -m "Pickle $TAG"
 git push origin main "$TAG"
