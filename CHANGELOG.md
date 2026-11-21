@@ -8,6 +8,8 @@ Every entry goes under one of these headings: **Added**, **Changed**, **Deprecat
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-21
+
 First public preview of Pickle: save a link, sort it later, find it again. Try it in your browser at [pickle-app-web.vercel.app](https://pickle-app-web.vercel.app).
 
 ### Added
@@ -25,4 +27,5 @@ First public preview of Pickle: save a link, sort it later, find it again. Try i
 - **Website** on GitHub Pages
 - Open source project files: README, contributing guide, code of conduct, security policy, issue forms and release workflow
 
-[Unreleased]: https://github.com/KeethApps/Pickle/commits/main
+[Unreleased]: https://github.com/KeethApps/Pickle/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/KeethApps/Pickle/releases/tag/v0.1.0
