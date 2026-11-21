@@ -1,0 +1,24 @@
+# Controls the "Generate release notes" button and `gh release create --generate-notes`.
+# Label your pull requests and they are grouped automatically.
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+      - dependencies
+    authors:
+      - dependabot
+  categories:
+    - title: "⚠️ Breaking changes"
+      labels: [breaking]
+    - title: "✨ New"
+      labels: [enhancement, feature]
+    - title: "🃏 Cards and collections"
+      labels: [cards]
+    - title: "🐛 Fixes"
+      labels: [bug]
+    - title: "🎨 Design"
+      labels: [design]
+    - title: "📚 Docs and website"
+      labels: [documentation, website]
+    - title: "🧰 Other changes"
+      labels: ["*"]

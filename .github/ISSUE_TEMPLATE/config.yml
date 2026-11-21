@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/KeethApps/Pickle/discussions
+    about: For questions and ideas that are not bugs

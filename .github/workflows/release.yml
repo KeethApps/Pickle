@@ -1,0 +1,55 @@
+name: Release
+
+# Runs when you push a version tag such as v0.1.0 or v0.2.0-beta.1.
+# You can also run it by hand from the Actions tab and type an existing tag.
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to release, e.g. v0.1.0"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Pull this version's notes out of CHANGELOG.md
+        id: notes
+        run: |
+          VERSION="${TAG#v}"
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[" v "\\]" {found=1; next}
+            found && (/^## \[/ || /^\[[^]]+\]: /) {exit}
+            found {print}
+          ' CHANGELOG.md | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' > notes.md
+          if [ -s notes.md ]; then echo "has_notes=true" >> "$GITHUB_OUTPUT"; else echo "has_notes=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Create or update the GitHub release
+        run: |
+          FLAGS=""
+          case "$TAG" in *-*) FLAGS="--prerelease" ;; esac
+          if [ "${{ steps.notes.outputs.has_notes }}" = "true" ]; then
+            {
+              cat notes.md
+              printf '\n\n---\n**Full changelog:** https://github.com/%s/blob/main/CHANGELOG.md\n' "$GITHUB_REPOSITORY"
+            } > body.md
+            if gh release view "$TAG" >/dev/null 2>&1; then
+              gh release edit "$TAG" --title "Pickle ${TAG}" --notes-file body.md $FLAGS
+            else
+              gh release create "$TAG" --verify-tag --title "Pickle ${TAG}" --notes-file body.md $FLAGS
+            fi
+          else
+            gh release create "$TAG" --verify-tag --title "Pickle ${TAG}" --generate-notes $FLAGS
+          fi
